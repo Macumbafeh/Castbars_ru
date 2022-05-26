@@ -1,12 +1,13 @@
 ## Interface: 30300
 ## Title: Castbars
-## Author: xbeeps, перевёл на русский Мастер
+## Author: xbeeps, Master-f1
 ## Notes: Configurable Castbars
 ## Notes-ruRU: Заменяет стандартную панель чтения заклинания
 ## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets
 ## SavedVariables: CastbarsDB
 ## X-Category: Combat
-## Version: 2.39
+## Version: 2.40
+
 #@no-lib-strip@
 Libs\LibStub\LibStub.lua
 Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
