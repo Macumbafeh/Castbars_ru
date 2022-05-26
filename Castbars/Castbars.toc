@@ -22,3 +22,4 @@ Libs\AceGUI-3.0-SharedMediaWidgets\widget.xml
 #@end-no-lib-strip@
 
 Castbars.lua
+Vercheck.lua
