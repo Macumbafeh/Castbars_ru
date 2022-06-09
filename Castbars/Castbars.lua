@@ -21,7 +21,9 @@ Castbars.SpellToTicks = {
 	[GetSpellInfo(5143)] = 5, -- Arcane Missiles
 	[GetSpellInfo(12051)] = 4, -- Evocation
 	-- Hunter
-	[GetSpellInfo(1510)] = 6 -- Volley
+	[GetSpellInfo(1510)] = 6, -- Volley
+	-- Sirus
+	[GetSpellInfo(309231)] = 5 -- Землетрясение
 }
 
 Castbars.Barticks = setmetatable({}, {
@@ -490,7 +492,7 @@ function Castbars:FrameCustomizeAll()
 end
 
 function Castbars:GetOptionsTableForBar(frameConfigName, friendlyName, order, textAlign, showHideShield, enableDisable, showHideIcon,
-	showHideLatency, showHideSpellTarget, showHideTotalCastTime, totalCastTimeDecimals, showHidePushback, showHideCooldownSpark)
+	showHideLatency, showHideSpellTarget, showHideTotalCastTime, totalCastTimeDecimals, showHidePushback, showHideCooldownSpark, showHideTick)
 	local options = {
 		type = "group",
 		name = friendlyName,
@@ -785,6 +787,20 @@ function Castbars:GetOptionsTableForBar(frameConfigName, friendlyName, order, te
 			end
 		}
 	end
+	if (showHideTick) then
+		options.args.showtick = {
+			name = "Такт",
+			type = "toggle",
+			order = 9.5,
+			desc = "Переключает отображение тиков на потоковых заклинаниях.",
+			get = function()
+				return self.db.profile[frameConfigName]["ShowTick"]
+			end,
+			set = function()
+				self.db.profile[frameConfigName]["ShowTick"] = not self.db.profile[frameConfigName]["ShowTick"];
+			end
+		}
+	end
 	if (textAlign) then
 		options.args.textalign = {
 			name = "Выравнивание текста",
@@ -828,7 +844,7 @@ function Castbars:GetOptionsTable()
 							self:Toggle()
 						end
 					},
-					player = self:GetOptionsTableForBar("CastingBarFrame", "Игрок/Транспорт", 2, true, false, true, true, true, true, true, true, true, true),
+					player = self:GetOptionsTableForBar("CastingBarFrame", "Игрок/Транспорт", 2, true, false, true, true, true, true, true, true, true, true, true),
 					pet = self:GetOptionsTableForBar("PetCastingBarFrame", "Питомец", 3, true, false, true, true, false, false, true, false, false, false),
 					target = self:GetOptionsTableForBar("TargetCastingBarFrame", "Цель", 4, true, true, true, true, false, false, true, false, false, false),
 					focus = self:GetOptionsTableForBar("FocusCastingBarFrame", "Фокус", 5, true, true, true, true, false, false, true, false, false, false),
@@ -885,6 +901,7 @@ function Castbars:OnInitialize()
 				TotalCastTimeDecimals = 1,
 				ShowPushback = true,
 				ShowCooldownSpark = true,
+				ShowTick = true,
 				Width = 240,
 				Height = 24,
 				Position = {
@@ -1064,7 +1081,7 @@ function Castbars:OnInitialize()
 		if ((event == "UNIT_SPELLCAST_START") or (event == "UNIT_SPELLCAST_CHANNEL_START")) then
 			local unit = ...;
 			if ((unit == "player") and (frame.unit == "player")) then
-				if (frame.channeling) then
+				if (frame.channeling and self.db.profile[frame.configName]["ShowTick"]) then
 					self:CastingBarFrameTicksSet(self.SpellToTicks[frame.spellName] or 0);
 				end
 				if (frame.casting) then
