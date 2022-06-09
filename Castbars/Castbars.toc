@@ -6,7 +6,7 @@
 ## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets
 ## SavedVariables: CastbarsDB
 ## X-Category: Combat
-## Version: 2.40
+## Version: 2.41
 
 #@no-lib-strip@
 Libs\LibStub\LibStub.lua
